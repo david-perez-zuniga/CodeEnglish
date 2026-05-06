@@ -89,3 +89,23 @@ def test_patch_synonym_fail(client):
     response = client.patch("/api/rt_synonyms/update_synonym/99", json=payload)
     assert response.status_code == 404
     assert response.json()["detail"] == "Synonym no encontrado"
+
+
+# Función test para borrar synonym (Éxitoso)
+def test_delete_synonym_succes(client):
+
+    payload = {
+        "pages_id": 1,
+        "word": "Test",
+        "synonym": "Quiz"
+    }
+
+    response_post = client.post("/api/rt_synonyms/create_synonym", json=payload)
+    id_created = response_post.json()["id"]
+
+    response_delete = client.delete(f"/api/rt_synonyms/delete_synonym/{id_created}")
+    assert response_delete.status_code == 200
+    assert response_delete.json()["mensaje"] == "Synonym eliminado correctamente"
+
+    response_review = client.get("/api/rt_synonyms/synonyms/1")
+    assert response_review.status_code == 404
