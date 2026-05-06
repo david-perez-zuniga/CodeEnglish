@@ -109,3 +109,10 @@ def test_delete_synonym_succes(client):
 
     response_review = client.get("/api/rt_synonyms/synonyms/1")
     assert response_review.status_code == 404
+
+
+# Funnción test para borrar synonym (Fallido)
+def test_delete_synonym_fail(client):
+    response = client.delete("/api/rt_synonyms/delete_synonym/99")
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Synonym no encontrado"
