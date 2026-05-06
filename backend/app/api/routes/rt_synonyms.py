@@ -95,10 +95,15 @@ async def delete_synonym(id: int, conex: AsyncSession = Depends(get_db)):
         result = await conex.execute(stmt)
         del_synonym = result.scalars().first()
 
-        if not del_synonym:
-            raise HTTPException(status_code=404, detail="Synonym no encontrado")
+    except Exception as ex:
+        print(f"Error de lectura: {ex}")
+        raise HTTPException(status_code=500, detail="Problemas en la petición")
 
-        conex.delete(del_synonym)
+    if not del_synonym:
+        raise HTTPException(status_code=404, detail="Synonym no encontrado")
+
+    try:
+        await conex.delete(del_synonym)
         await conex.commit()
 
         return {"mensaje": "Synonym eliminado correctamente"}
