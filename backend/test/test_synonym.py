@@ -1,6 +1,6 @@
 # Función test para crear un synonym (Éxitoso)
 def test_create_synonym_succes(client):
-    payload={
+    payload = {
         "pages_id": 1,
         "word": "Test",
         "synonym": "Quiz"
@@ -17,7 +17,7 @@ def test_create_synonym_succes(client):
 
 # Función test para crear synonym (Fallido)
 def test_create_synonym_fail(client):
-    payload={
+    payload = {
         "word": "Test",
     }
 
@@ -26,13 +26,13 @@ def test_create_synonym_fail(client):
     assert response.status_code == 422
     data = response.json()
     assert "detail" in data
- 
+
 
 # Función test para obtener synonym (Éxitoso)
 def test_get_synonym_succes(client):
-    
+
     id_test_page = 5
-    payload={
+    payload = {
         "pages_id": id_test_page,
         "word": "Test",
         "synonym": "Quiz"
@@ -49,6 +49,7 @@ def test_get_synonym_succes(client):
     assert data[0]["word"] == "Test"
     assert data[0]["pages_id"] == 5
 
+
 # Función test para obtener synonym (fallido)
 def test_get_synonym_fail(client):
 
@@ -61,7 +62,7 @@ def test_get_synonym_fail(client):
 # Función test para actualizar synonym (Éxitoso)
 def test_patch_synonym_succes(client):
 
-    payload={
+    payload = {
         "pages_id": 1,
         "word": "Test",
         "synonym": "Quiz"
@@ -70,9 +71,7 @@ def test_patch_synonym_succes(client):
     response = client.post("/api/rt_synonyms/create_synonym", json=payload)
     id_create = response.json()["id"]
 
-    payload_patch ={
-        "synonym": "Exam"
-    }
+    payload_patch = {"synonym": "Exam"}
 
     response_patch = client.patch(f"/api/rt_synonyms/update_synonym/{id_create}", json=payload_patch)
 
@@ -80,4 +79,13 @@ def test_patch_synonym_succes(client):
     data = response_patch.json()
 
     assert data["synonym"] == "Exam"
-    assert data["word"] == "Test" 
+    assert data["word"] == "Test"
+
+
+# Función test para actualizar synonym (Fallido)
+def test_patch_synonym_fail(client):
+
+    payload = {"synonym": "Exam"}
+    response = client.patch("/api/rt_synonyms/update_synonym/99", json=payload)
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Synonym no encontrado"
