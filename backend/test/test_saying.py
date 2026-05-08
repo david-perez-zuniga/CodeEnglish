@@ -13,3 +13,15 @@ def test_create_saying_success(client):
     data = response.json()
     assert data["saying"] == "On the tip of the tongue"
     assert "id" in data
+
+
+# Función test para crear un saying (Fallido)
+def test_create_saying_fail(client):
+    payload = {
+        "saying": "On the tip of the tongue"
+    }
+
+    response = client.post("/api/rt_sayings/create_saying", json=payload)
+    assert response.status_code == 422
+    data = response.json()
+    assert "detail" in data
