@@ -43,14 +43,14 @@ async def get_saying(pages_id: int, conex: AsyncSession = Depends(get_db)):
         result = await conex.execute(stmt)
         saying = result.scalars().all()
 
-        if not saying:
-            raise HTTPException(status_code=404, detail="Saying no encontrados")
-
-        return saying
-
     except Exception as ex:
         print(f"Error: {ex}")
         raise HTTPException(status_code=500, detail="Problemas con la petición")
+    
+    if not saying:
+        raise HTTPException(status_code=404, detail="Saying no encontrados")
+
+    return saying
 
 
 # API para actualizar saying
