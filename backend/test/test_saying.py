@@ -30,7 +30,7 @@ def test_create_saying_fail(client):
 # Función test para obtener saying (Éxitoso)
 def test_get_saying_succes(client):
     id_page_test = 5
-    
+
     payload = {
         "pages_id": id_page_test,
         "saying": "On the tip of the tongue",
@@ -48,3 +48,11 @@ def test_get_saying_succes(client):
     assert len(data) == 1
     assert data[0]["saying"] == "On the tip of the tongue"
     assert data[0]["pages_id"] == 5
+
+
+# Función test para obtener saying (Fallido)
+def test_get_saying_fail(client):
+    response = client.get("/api/rt_sayings/saying/99")
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Saying no encontrados"
