@@ -46,7 +46,7 @@ async def get_saying(pages_id: int, conex: AsyncSession = Depends(get_db)):
     except Exception as ex:
         print(f"Error: {ex}")
         raise HTTPException(status_code=500, detail="Problemas con la petición")
-    
+
     if not saying:
         raise HTTPException(status_code=404, detail="Saying no encontrados")
 
@@ -62,9 +62,14 @@ async def update_saying(id: int, saying: SayingUpdate,
         result = await conex.execute(stmt)
         upt_saying = result.scalars().first()
 
-        if not upt_saying:
-            raise HTTPException(status_code=404, detail="Saying no encontrado")
+    except Exception as ex:
+        print(f"Error de lectura: {ex}")
+        raise HTTPException(status_code=500, detail="Problemas en la petición")
 
+    if not upt_saying:
+        raise HTTPException(status_code=404, detail="Saying no encontrado")
+
+    try:
         upt_data = saying.model_dump(exclude_unset=True)
 
         for key, value in upt_data.items():
