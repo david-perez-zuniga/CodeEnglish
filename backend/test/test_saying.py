@@ -76,3 +76,13 @@ def test_patch_saying_success(client):
     data = response_patch.json()
     assert data["meaning"] == "Modificado"
     assert data["saying"] == "On the tip of the tongue"
+
+
+# Función test para actualizar saying (Fallido)
+def test_patch_saying_fail(client):
+    payload_patch = {"meaning": "Modificado"}
+
+    response = client.patch("/api/rt_sayings/update_saying/999", json=payload_patch)
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Saying no encontrado"
