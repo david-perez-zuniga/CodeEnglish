@@ -56,3 +56,23 @@ def test_get_saying_fail(client):
 
     assert response.status_code == 404
     assert response.json()["detail"] == "Saying no encontrados"
+
+
+# Función test para actualizar saying (Éxitoso)
+def test_patch_saying_success(client):
+    payload = {
+        "pages_id": 1,
+        "saying": "On the tip of the tongue",
+        "meaning": "En la punta de la lengua",
+        "example": "I had the word on the tip of the tongue"
+    }
+    response_post = client.post("/api/rt_sayings/create_saying", json=payload)
+    id_create = response_post.json()["id"]
+
+    payload_patch = {"meaning": "Modificado"}
+    response_patch = client.patch(f"/api/rt_sayings/update_saying/{id_create}", json=payload_patch)
+
+    assert response_patch.status_code == 200
+    data = response_patch.json()
+    assert data["meaning"] == "Modificado"
+    assert data["saying"] == "On the tip of the tongue"
