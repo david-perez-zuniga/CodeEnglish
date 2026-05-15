@@ -86,3 +86,23 @@ def test_patch_saying_fail(client):
 
     assert response.status_code == 404
     assert response.json()["detail"] == "Saying no encontrado"
+
+
+# Función test para eliminar saying (Exitoso)
+def test_delete_saying_succes(client):
+    payload_crear = {
+        "pages_id": 1,
+        "saying": "On the tip of the tongue",
+        "meaning": "En la punta de la lengua",
+        "example": "I had the word on the tip of the tongue"
+    }
+    response_post = client.post("/api/rt_sayings/create_saying", json=payload_crear)
+    id_creado = response_post.json()["id"]
+
+    response_delete = client.delete(f"/api/rt_sayings/delete_saying/{id_creado}")
+
+    assert response_delete.status_code == 200
+    assert response_delete.json()["mensaje"] == "Saying eliminado correctamente"
+
+    response_verificar = client.get("/api/rt_sayings/saying/1")
+    assert response_verificar.status_code == 404
