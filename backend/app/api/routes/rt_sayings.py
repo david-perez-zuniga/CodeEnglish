@@ -95,10 +95,15 @@ async def delete_saying(id: int, conex: AsyncSession = Depends(get_db)):
         result = await conex.execute(stmt)
         del_saying = result.scalars().first()
 
-        if not del_saying:
-            raise HTTPException(status_code=404, detail="Saying no encontrado")
+    except Exception as ex:
+        print(f"Error: {ex}")
+        raise HTTPException(status_code=500, detail="Problemas en la petición")
 
-        conex.delete(del_saying)
+    if not del_saying:
+        raise HTTPException(status_code=404, detail="Saying no encontrado")
+
+    try:
+        await conex.delete(del_saying)
         await conex.commit()
 
         return {"mensaje": "Saying eliminado correctamente"}
