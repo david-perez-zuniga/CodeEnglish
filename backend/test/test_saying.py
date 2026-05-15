@@ -106,3 +106,11 @@ def test_delete_saying_succes(client):
 
     response_verificar = client.get("/api/rt_sayings/saying/1")
     assert response_verificar.status_code == 404
+
+
+# Función test para eliminar saying (Fallido)
+def test_delete_saying_fail(client):
+    response = client.delete("/api/rt_sayings/delete_saying/999")
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Saying no encontrado"
