@@ -51,3 +51,22 @@ def test_get_page_fail(client):
 
     assert response.status_code == 404
     assert response.json()["detail"] == "Páginas no encontradas"
+
+
+# Test function to patch page (Success)
+def test_patch_page_succes(client):
+    payload_crear = {
+        "page_number": 1,
+        "module_type": "vocabulary",
+        "subtitle": "Unit 1 - Basic Words"
+    }
+    response_post = client.post("/api/rt_pages/create_page", json=payload_crear)
+    id_creado = response_post.json()["id"]
+
+    payload_patch = {"subtitle": "Unit 1 - Updated Title"}
+    response_patch = client.patch(f"/api/rt_pages/update_page/{id_creado}", json=payload_patch)
+
+    assert response_patch.status_code == 200
+    data = response_patch.json()
+    assert data["subtitle"] == "Unit 1 - Updated Title"
+    assert data["module_type"] == "vocabulary"
