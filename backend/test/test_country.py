@@ -104,3 +104,11 @@ def test_delete_country_succes(client):
 
     response_verificar = client.get("/api/rt_countries/country/1")
     assert response_verificar.status_code == 404
+
+
+# Test function to delete country (Fail)
+def test_delete_country_fail(client):
+    response = client.delete("/api/rt_countries/delete_country/999")
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Country no encontrado"
