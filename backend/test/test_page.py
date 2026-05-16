@@ -43,3 +43,11 @@ def test_get_page_succes(client):
     assert isinstance(data, list)
     assert len(data) == 1
     assert data[0]["module_type"] == "vocabulary"
+
+
+# Test function to get page (Fail)
+def test_get_page_fail(client):
+    response = client.get("/api/rt_pages/pages/inexistente")
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Páginas no encontradas"
