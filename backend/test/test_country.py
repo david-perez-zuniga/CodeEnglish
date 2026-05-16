@@ -46,3 +46,11 @@ def test_get_country_succes(client):
     assert isinstance(data, list)
     assert len(data) == 1
     assert data[0]["country"] == "France"
+
+
+# Test function to get country (Fail)
+def test_get_country_fail(client):
+    response = client.get("/api/rt_countries/country/99")
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Country no encontrado"
