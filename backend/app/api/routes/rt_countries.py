@@ -62,9 +62,14 @@ async def update_country(id: int, country: CountryUpdate,
         result = await conex.execute(stmt)
         upt_country = result.scalars().first()
 
-        if not upt_country:
-            raise HTTPException(status_code=404, detail="Country no encontrado")
+    except Exception as ex:
+        print(f"Error: {ex}")
+        raise HTTPException(status_code=500, detail="Problemas en la petición")
 
+    if not upt_country:
+        raise HTTPException(status_code=404, detail="Country no encontrado")
+
+    try:
         upt_data = country.model_dump(exclude_unset=True)
 
         for key, value in upt_data.items():
@@ -90,10 +95,15 @@ async def delete_country(id: int, conex: AsyncSession = Depends(get_db)):
         result = await conex.execute(stmt)
         del_country = result.scalars().first()
 
-        if not del_country:
-            raise HTTPException(status_code=404, detail="Country no encontrado")
+    except Exception as ex:
+        print(f"Error: {ex}")
+        raise HTTPException(status_code=500, detail="Problemas en la petición")
 
-        conex.delete(del_country)
+    if not del_country:
+        raise HTTPException(status_code=404, detail="Country no encontrado")
+
+    try:
+        await conex.delete(del_country)
         await conex.commit()
 
         return {"mensaje": "Country eliminado correctamente"}
