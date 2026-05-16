@@ -84,3 +84,23 @@ def test_patch_country_fail(client):
 
     assert response.status_code == 404
     assert response.json()["detail"] == "Country no encontrado"
+
+
+# Test function to delete country (Success)
+def test_delete_country_succes(client):
+    payload_crear = {
+        "pages_id": 1,
+        "country": "France",
+        "adjective": "French",
+        "person": "Frenchman"
+    }
+    response_post = client.post("/api/rt_countries/create_country", json=payload_crear)
+    id_creado = response_post.json()["id"]
+
+    response_delete = client.delete(f"/api/rt_countries/delete_country/{id_creado}")
+
+    assert response_delete.status_code == 200
+    assert response_delete.json()["mensaje"] == "Country eliminado correctamente"
+
+    response_verificar = client.get("/api/rt_countries/country/1")
+    assert response_verificar.status_code == 404
