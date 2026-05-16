@@ -74,3 +74,13 @@ def test_patch_country_succes(client):
     data = response_patch.json()
     assert data["adjective"] == "French (updated)"
     assert data["country"] == "France"
+
+
+# Test function to patch country (Fail)
+def test_patch_country_fail(client):
+    payload_patch = {"country": "Ghost"}
+
+    response = client.patch("/api/rt_countries/update_country/999", json=payload_patch)
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Country no encontrado"
