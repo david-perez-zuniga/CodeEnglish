@@ -54,3 +54,23 @@ def test_get_country_fail(client):
 
     assert response.status_code == 404
     assert response.json()["detail"] == "Country no encontrado"
+
+
+# Test function to patch country (Success)
+def test_patch_country_succes(client):
+    payload_crear = {
+        "pages_id": 1,
+        "country": "France",
+        "adjective": "French",
+        "person": "Frenchman"
+    }
+    response_post = client.post("/api/rt_countries/create_country", json=payload_crear)
+    id_creado = response_post.json()["id"]
+
+    payload_patch = {"adjective": "French (updated)"}
+    response_patch = client.patch(f"/api/rt_countries/update_country/{id_creado}", json=payload_patch)
+
+    assert response_patch.status_code == 200
+    data = response_patch.json()
+    assert data["adjective"] == "French (updated)"
+    assert data["country"] == "France"
