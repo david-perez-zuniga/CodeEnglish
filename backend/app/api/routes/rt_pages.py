@@ -36,14 +36,14 @@ async def get_pages(module_type: str, conex: AsyncSession = Depends(get_db)):
         result = await conex.execute(stmt)
         pages = result.scalars().all()
 
-        if not pages:
-            raise HTTPException(status_code=404, detail="Páginas no encontradas")
-
-        return pages
-
     except Exception as ex:
         print(f"Error: {ex}")
         raise HTTPException(status_code=500, detail="Problemas con la petición")
+
+    if not pages:
+        raise HTTPException(status_code=404, detail="Páginas no encontradas")
+
+    return pages
 
 
 # API para actualizar página
