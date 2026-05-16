@@ -15,7 +15,7 @@ router = APIRouter()
 # API para crear una palabra de un country
 @router.post("/create_country", response_model=CountryResponse)
 async def create_country(country: CountryCreate,
-                       conex: AsyncSession = Depends(get_db)):
+                         conex: AsyncSession = Depends(get_db)):
     try:
         country_new = tbl_Country(**country.model_dump())
 
@@ -43,14 +43,14 @@ async def get_countries(pages_id: int, conex: AsyncSession = Depends(get_db)):
         result = await conex.execute(stmt)
         country = result.scalars().all()
 
-        if not country:
-            raise HTTPException(status_code=404, detail="Country no encontrado")
-
-        return country
-
     except Exception as ex:
         print(f"Error: {ex}")
         raise HTTPException(status_code=500, detail="Problemas con la petición")
+
+    if not country:
+        raise HTTPException(status_code=404, detail="Country no encontrado")
+
+    return country
 
 
 # API para actualizar country
