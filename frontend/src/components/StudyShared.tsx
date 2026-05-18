@@ -41,6 +41,12 @@ export const MainContent = styled.main`
   padding: 2rem;
   position: relative;
   padding-bottom: 120px;
+  overflow-y: auto;
+  width: 100%;
+  
+  &::-webkit-scrollbar { display: none; }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
 export const TopBar = styled.header`
@@ -107,7 +113,14 @@ export const CardsGrid = styled.div`
   gap: 1rem;
   width: 100%;
   max-width: 800px;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 0.5rem;
   animation: ${fadeIn} 0.7s ease-out;
+  
+  &::-webkit-scrollbar { display: none; }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
 export const PageCard = styled.button<{ $selected: boolean }>`
