@@ -70,3 +70,13 @@ def test_patch_page_succes(client):
     data = response_patch.json()
     assert data["subtitle"] == "Unit 1 - Updated Title"
     assert data["module_type"] == "vocabulary"
+
+
+# Test function to patch page (Fail)
+def test_patch_page_fail(client):
+    payload_patch = {"subtitle": "Non-existent Page"}
+
+    response = client.patch("/api/rt_pages/update_page/999", json=payload_patch)
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Página no encontrada"
