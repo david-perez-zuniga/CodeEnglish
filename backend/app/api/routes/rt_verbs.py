@@ -39,7 +39,7 @@ async def create_verb(verb: VerbCreate,
 @router.get("/verbs/{page_id}", response_model=List[VerbResponse])
 async def get_verb(page_id: int, conex: AsyncSession = Depends(get_db)):
     try:
-        stmt = select(tbl_Verb).where(tbl_Verb.page_id == page_id)
+        stmt = select(tbl_Verb).where(tbl_Verb.pages_id == page_id)
         result = await conex.execute(stmt)
         verbs = result.scalars().all()
 
