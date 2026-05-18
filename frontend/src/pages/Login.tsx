@@ -96,20 +96,7 @@ const FooterText = styled.p`
   }
 `;
 
-const BackLink = styled(Link)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.9rem;
-  transition: color 0.2s ease;
 
-  &:hover {
-    color: #6366f1;
-  }
-`;
 
 interface FormData {
   username: string;
@@ -138,7 +125,7 @@ export const Login = () => {
       <BackgroundGlow />
       <BackgroundGlow2 />
       <FormCard>
-        <BackLink to="/">← Back to Home</BackLink>
+        
         <Title>Welcome Back</Title>
         <Subtitle>Enter your credentials to continue learning</Subtitle>
         <form onSubmit={handleSubmit}>
