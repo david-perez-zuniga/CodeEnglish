@@ -108,20 +108,7 @@ const FooterText = styled.p`
   }
 `;
 
-const BackLink = styled(Link)`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-  color: #94a3b8;
-  font-size: 0.9rem;
-  text-decoration: none;
-  transition: color 0.2s ease;
 
-  &:hover {
-    color: #6366f1;
-  }
-`;
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -142,7 +129,7 @@ export const Register = () => {
     <Container>
       <BackgroundGlow />
       <FormWrapper>
-        <BackLink to="/">← Back to Home</BackLink>
+        
         <FormCard>
           <Header>
             <Title>Create Account</Title>
