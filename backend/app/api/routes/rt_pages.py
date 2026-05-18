@@ -55,9 +55,14 @@ async def update_page(id: int, page: PageUpdate,
         result = await conex.execute(stmt)
         upt_page = result.scalars().first()
 
-        if not upt_page:
-            raise HTTPException(status_code=404, detail="Página no encontrada")
+    except Exception as ex:
+        print(f"Error: {ex}")
+        raise HTTPException(status_code=500, detail="Problemas en la petición")
 
+    if not upt_page:
+        raise HTTPException(status_code=404, detail="Página no encontrada")
+
+    try:
         upt_data = page.model_dump(exclude_unset=True)
 
         for key, value in upt_data.items():
