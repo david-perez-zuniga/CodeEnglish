@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 class Verb(Base):
     __tablename__ = "verbs"
     id: Mapped[int] = mapped_column(primary_key=True)
-    page_id: Mapped[int] = mapped_column(ForeignKey("pages.id"))
+    pages_id: Mapped[int] = mapped_column(ForeignKey("pages.id"))
     base_form: Mapped[str] = mapped_column(String(25), index=True, nullable=False)
     meaning: Mapped[str] = mapped_column(String(25), nullable=False)
     present: Mapped[str] = mapped_column(String(25), nullable=False)
