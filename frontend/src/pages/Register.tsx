@@ -16,9 +16,12 @@ const Container = styled.div`
   flex-direction: column;
   padding: 2rem;
   position: relative;
-  /* CLAVE: Permitimos scroll interno para pantallas pequeñas */
-  overflow-y: auto; 
+  overflow-y: auto;
   background: radial-gradient(circle at center, #1a1a2e 0%, #0f0f1a 100%);
+  
+  &::-webkit-scrollbar { display: none; }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
 const BackgroundGlow = styled.div`
