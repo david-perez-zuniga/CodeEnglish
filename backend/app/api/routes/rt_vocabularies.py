@@ -47,7 +47,7 @@ async def get_vocabulary(pages_id: int, conex: AsyncSession = Depends(get_db)):
         raise HTTPException(status_code=500, detail="Problemas en la petición")
 
     if not vocabularies:
-        raise HTTPException(status_code=404, detail="Verbos no encontrados")
+        raise HTTPException(status_code=404, detail="Vocabulario no encontrado")
 
     return vocabularies
 

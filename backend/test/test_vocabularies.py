@@ -58,7 +58,7 @@ def test_get_vocabulary_fail(client):
     response = client.get("/api/rt_vocabularies/vocabulary/99")
 
     assert response.status_code == 404
-    assert response.json()["detail"] == "Verbos no encontrados"
+    assert response.json()["detail"] == "Vocabulario no encontrado"
 
 
 # Función test para PATCH (Éxitoso)
