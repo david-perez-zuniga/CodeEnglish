@@ -11,7 +11,8 @@ import {
   Shuffle,
   Volume2,
   X,
-  Check
+  Check,
+  Home
 } from 'lucide-react';
 import { 
   Container,
@@ -19,6 +20,7 @@ import {
   MainContent,
   TopBar,
   BackButton,
+  DashboardButton,
   HeaderTitle,
   Spacer,
   SelectionTitle,
@@ -194,10 +196,17 @@ export const SayingsStudy = () => {
       <BackgroundGlow />
       
       <TopBar>
-        <BackButton onClick={handleBack}>
-          <ArrowLeft size={18} />
-          {view === 'study' ? 'Back' : 'Exit'}
-        </BackButton>
+        {view === 'study' ? (
+          <BackButton onClick={handleBack}>
+            <ArrowLeft size={18} />
+            Back
+          </BackButton>
+        ) : (
+          <DashboardButton onClick={() => navigate('/dashboard')}>
+            <Home size={18} />
+            Dashboard
+          </DashboardButton>
+        )}
         
         <HeaderTitle>
           <Quote size={20} />
