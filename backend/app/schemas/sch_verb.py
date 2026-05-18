@@ -5,7 +5,7 @@ from typing import Optional
 # Esquema para Response
 class VerbResponse(BaseModel):
     id: int
-    page_id: int
+    pages_id: int
     base_form: str
     meaning: str
     present: str
@@ -20,7 +20,7 @@ class VerbResponse(BaseModel):
 
 # Esquema para crear verbo
 class VerbCreate(BaseModel):
-    page_id: int
+    pages_id: int
     base_form: str = Field(max_length=25)
     meaning: str = Field(max_length=25)
     present: str = Field(max_length=25)
@@ -31,7 +31,7 @@ class VerbCreate(BaseModel):
 
 # Esquema para actualizar
 class VerbUpdate(BaseModel):
-    page_id: Optional[int] = Field(default=None)
+    pages_id: Optional[int] = Field(default=None)
     base_form: Optional[str] = Field(default=None, max_length=30)
     meaning: Optional[str] = Field(default=None, max_length=30)
     present: Optional[str] = Field(default=None, max_length=30)
