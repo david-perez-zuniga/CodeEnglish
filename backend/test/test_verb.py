@@ -1,7 +1,7 @@
 # Función test para crear un verbo (Éxitoso)
 def test_create_verb(client):
     payload = {
-        "page_id": 1,
+        "pages_id": 1,
         "base_form": "Buy",
         "meaning": "Comprar",
         "present": "Buys",
@@ -37,7 +37,7 @@ def test_get_verb_succes(client):
 
     id_pagina_prueba = 5
     payload = {
-        "page_id": id_pagina_prueba,
+        "pages_id": id_pagina_prueba,
         "base_form": "Buy",
         "meaning": "Comprar",
         "present": "Buys",
@@ -55,7 +55,7 @@ def test_get_verb_succes(client):
 
     assert len(data) == 1
     assert data[0]["base_form"] == "Buy"
-    assert data[0]["page_id"] == 5
+    assert data[0]["pages_id"] == 5
 
 
 # Función test de ENPOINT GET (fallido)
@@ -70,7 +70,7 @@ def test_get_verb_fail(client):
 # Función test para actualizar verbo (Éxitoso)
 def test_update_verb_success(client):
     payload = {
-        "page_id": 1,
+        "pages_id": 1,
         "base_form": "Buy",
         "meaning": "Comprar",
         "present": "Buys",
@@ -109,7 +109,7 @@ def test_update_verb_fail(client):
 def test_delete_verb_succes(client):
 
     payload_post = {
-        "page_id": 1,
+        "pages_id": 1,
         "base_form": "Buy",
         "meaning": "Comprar",
         "present": "Buys",
