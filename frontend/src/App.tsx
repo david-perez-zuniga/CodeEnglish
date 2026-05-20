@@ -3,12 +3,12 @@ import { Welcome } from './pages/Welcome';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Dashboard } from './pages/Dashboard';
-import { VocabularyStudy } from './pages/VocabularyStudy';
-import { VerbsStudy } from './pages/VerbsStudy';
-import { IdiomsStudy } from './pages/IdiomsStudy';
-import { SynonymsStudy } from './pages/SynonymsStudy';
-import { SayingsStudy } from './pages/SayingsStudy';
-import { CountriesStudy } from './pages/CountriesStudy';
+import { VocabularyStudy } from './pages/vocabulary';
+import { VerbsStudy } from './pages/verbs';
+import { IdiomsStudy } from './pages/idioms';
+import { SynonymsStudy } from './pages/synonyms';
+import { SayingsStudy } from './pages/sayings';
+import { CountriesStudy } from './pages/countries';
 
 function App() {
   return (
