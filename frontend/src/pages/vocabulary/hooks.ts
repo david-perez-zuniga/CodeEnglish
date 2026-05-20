@@ -14,6 +14,7 @@ export const useVocabularyStudy = () => {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [words, setWords] = useState<Word[]>(mockWords);
   const [loading, setLoading] = useState(false);
+  const [currentWordMode, setCurrentWordMode] = useState<'english' | 'spanish'>('english');
 
   const fetchVocabularyByPages = async (pages: number[]) => {
     setLoading(true);
@@ -71,6 +72,7 @@ export const useVocabularyStudy = () => {
     setView('study');
     setCurrentWordIndex(0);
     setIsFlipped(false);
+    setCurrentWordMode(Math.random() < 0.5 ? 'english' : 'spanish');
   };
 
   const handleFlip = () => {
@@ -81,6 +83,7 @@ export const useVocabularyStudy = () => {
     if (currentWordIndex < totalWords - 1) {
       setCurrentWordIndex(prev => prev + 1);
       setIsFlipped(false);
+      setCurrentWordMode(Math.random() < 0.5 ? 'english' : 'spanish');
     } else {
       navigate('/dashboard');
     }
@@ -89,7 +92,8 @@ export const useVocabularyStudy = () => {
   const handleGotIt = () => handleNextWord();
   const handleReviewLater = () => handleNextWord();
 
-  const handleWritingAnswer = (_isCorrect: boolean) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleWritingAnswer = (_isCorrect: boolean, _isEnglish: boolean) => {
     setTimeout(() => {
       handleNextWord();
     }, 1500);
@@ -103,6 +107,7 @@ export const useVocabularyStudy = () => {
     currentWordIndex,
     totalWords,
     currentWord,
+    currentWordMode,
     handleBack,
     togglePage,
     startStudySession,
