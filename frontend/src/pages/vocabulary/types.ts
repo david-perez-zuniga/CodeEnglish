@@ -13,3 +13,10 @@ export interface Page {
   title: string;
   desc: string;
 }
+
+export interface StudySessionResult {
+  total: number;
+  correct: number;
+  incorrect: number;
+  mode: StudyMode;
+}
