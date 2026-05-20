@@ -89,6 +89,12 @@ export const useVocabularyStudy = () => {
   const handleGotIt = () => handleNextWord();
   const handleReviewLater = () => handleNextWord();
 
+  const handleWritingAnswer = (_isCorrect: boolean) => {
+    setTimeout(() => {
+      handleNextWord();
+    }, 1500);
+  };
+
   return {
     view,
     selectedPages,
@@ -104,6 +110,7 @@ export const useVocabularyStudy = () => {
     handleNextWord,
     handleGotIt,
     handleReviewLater,
+    handleWritingAnswer,
     setStudyMode,
     loading,
   };
