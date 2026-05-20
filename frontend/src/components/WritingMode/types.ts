@@ -8,8 +8,9 @@ export interface WritingState {
 export interface WritingModeProps {
   word: string;
   meaning: string;
+  answer: string;
   timeLimit: number;
-  onAnswer: (isCorrect: boolean) => void;
+  onAnswer: (isCorrect: boolean, isEnglish: boolean) => void;
 }
 
 export type AnswerResult = 'correct' | 'incorrect' | 'timeout';
