@@ -24,11 +24,13 @@ interface ExtendedWritingModeProps extends WritingModeProps {
 export const WritingMode = ({
   word,
   meaning,
+  answer,
   timeLimit,
   onAnswer,
   currentIndex,
   totalWords,
 }: ExtendedWritingModeProps) => {
+  const isEnglishMode = answer === word;
   const inputRef = useRef<HTMLInputElement>(null);
 
   const {
@@ -42,7 +44,7 @@ export const WritingMode = ({
     handleInputFocus,
     handleInputChange,
     handleKeyDown,
-  } = useWritingMode(word, timeLimit, onAnswer);
+  } = useWritingMode(word, answer, timeLimit, onAnswer);
 
   useEffect(() => {
     if (!showFeedback && inputRef.current) {
@@ -62,8 +64,8 @@ export const WritingMode = ({
           <FeedbackBannerText $isCorrect={isCorrect as boolean}>
             {isCorrect ? 'Correct!' : 'Incorrect'}
           </FeedbackBannerText>
-          {!isCorrect && (
-            <FeedbackBannerAnswer>{word}</FeedbackBannerAnswer>
+{!isCorrect && (
+            <FeedbackBannerAnswer>{answer}</FeedbackBannerAnswer>
           )}
         </FeedbackBanner>
       )}
@@ -72,12 +74,12 @@ export const WritingMode = ({
         <FeedbackBanner $isCorrect={false}>
           <Clock size={20} />
           <FeedbackBannerText $isCorrect={false}>Time's Up!</FeedbackBannerText>
-          <FeedbackBannerAnswer>{word}</FeedbackBannerAnswer>
+          <FeedbackBannerAnswer>{answer}</FeedbackBannerAnswer>
         </FeedbackBanner>
       )}
 
-      <MeaningText>{meaning}</MeaningText>
-      <InstructionText>Write the word in English</InstructionText>
+      <MeaningText>{isEnglishMode ? meaning : word}</MeaningText>
+      <InstructionText>{isEnglishMode ? 'Write the word in English' : 'Escribe la palabra en español'}</InstructionText>
 
       <WritingInput
         ref={inputRef}
@@ -86,11 +88,11 @@ export const WritingMode = ({
         onChange={(e) => handleInputChange(e.target.value)}
         onFocus={handleInputFocus}
         onKeyDown={handleKeyDown}
-        placeholder="Type your answer..."
+        placeholder={isEnglishMode ? 'Type your answer...' : 'Escribe tu respuesta...'}
         disabled={showFeedback}
       />
 
-      <SubmitHint>Press ENTER to submit</SubmitHint>
+      <SubmitHint>{isEnglishMode ? 'Press ENTER to submit' : 'Presiona ENTER para enviar'}</SubmitHint>
 
       <ProgressInfo>
         {currentIndex + 1} / {totalWords} words
