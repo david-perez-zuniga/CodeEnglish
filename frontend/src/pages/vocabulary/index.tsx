@@ -46,6 +46,7 @@ import {
 import { useVocabularyStudy } from './hooks';
 import { BOOK_PAGES, STUDY_MODES } from './constants';
 import { TranslationText } from './styles';
+import { WritingMode } from '../../components/WritingMode';
 
 export const VocabularyStudy = () => {
   const navigate = useNavigate();
@@ -63,8 +64,73 @@ export const VocabularyStudy = () => {
     handleFlip,
     handleGotIt,
     handleReviewLater,
+    handleWritingAnswer,
     setStudyMode,
   } = useVocabularyStudy();
+
+  const renderStudyContent = () => {
+    if (studyMode === 'writing') {
+      return (
+        <WritingMode
+          word={currentWord.word}
+          meaning={currentWord.translation}
+          timeLimit={5}
+          onAnswer={handleWritingAnswer}
+          currentIndex={currentWordIndex}
+          totalWords={totalWords}
+        />
+      );
+    }
+
+    return (
+      <>
+        <PhaseBadge>
+          <BookOpen size={14} />
+          Phase 1: Recognition
+        </PhaseBadge>
+
+        <CardContainer $revealed={isFlipped} onClick={!isFlipped ? handleFlip : undefined}>
+          <SpeakerButton onClick={(e) => e.stopPropagation()}>
+            <Volume2 size={22} />
+          </SpeakerButton>
+          
+          <MainWord>{currentWord.word}</MainWord>
+          
+          {!isFlipped && (
+            <TapHint>Tap to reveal translation</TapHint>
+          )}
+          
+          {isFlipped && (
+            <>
+              <TranslationText>{currentWord.translation}</TranslationText>
+              <TapHint style={{ fontStyle: 'italic' }}>"{currentWord.example}"</TapHint>
+            </>
+          )}
+        </CardContainer>
+
+        {isFlipped && (
+          <ControlsContainer>
+            <ControlButton 
+              $variant="reject" 
+              onClick={handleReviewLater}
+            >
+              <X size={28} />
+            </ControlButton>
+            <ControlButton 
+              $variant="approve" 
+              onClick={handleGotIt}
+            >
+              <Check size={28} />
+            </ControlButton>
+          </ControlsContainer>
+        )}
+
+        <ProgressInfo>
+          {currentWordIndex + 1} / {totalWords} words
+        </ProgressInfo>
+      </>
+    );
+  };
 
   return (
     <Container>
@@ -114,52 +180,7 @@ export const VocabularyStudy = () => {
             </CardsGrid>
           </>
         ) : (
-          <>
-            <PhaseBadge>
-              <BookOpen size={14} />
-              Phase 1: Recognition
-            </PhaseBadge>
-
-            <CardContainer $revealed={isFlipped} onClick={!isFlipped ? handleFlip : undefined}>
-              <SpeakerButton onClick={(e) => e.stopPropagation()}>
-                <Volume2 size={22} />
-              </SpeakerButton>
-              
-              <MainWord>{currentWord.word}</MainWord>
-              
-              {!isFlipped && (
-                <TapHint>Tap to reveal translation</TapHint>
-              )}
-              
-              {isFlipped && (
-                <>
-                  <TranslationText>{currentWord.translation}</TranslationText>
-                  <TapHint style={{ fontStyle: 'italic' }}>"{currentWord.example}"</TapHint>
-                </>
-              )}
-            </CardContainer>
-
-            {isFlipped && (
-              <ControlsContainer>
-                <ControlButton 
-                  $variant="reject" 
-                  onClick={handleReviewLater}
-                >
-                  <X size={28} />
-                </ControlButton>
-                <ControlButton 
-                  $variant="approve" 
-                  onClick={handleGotIt}
-                >
-                  <Check size={28} />
-                </ControlButton>
-              </ControlsContainer>
-            )}
-
-            <ProgressInfo>
-              {currentWordIndex + 1} / {totalWords} words
-            </ProgressInfo>
-          </>
+          renderStudyContent()
         )}
       </MainContent>
 
