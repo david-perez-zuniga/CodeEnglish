@@ -3,8 +3,9 @@ import { isCorrectAnswer } from '../../utils/stringValidator';
 
 export const useWritingMode = (
   correctWord: string,
+  answer: string,
   timeLimit: number,
-  onAnswer: (isCorrect: boolean) => void
+  onAnswer: (isCorrect: boolean, isEnglish: boolean) => void
 ) => {
   const [userInput, setUserInput] = useState('');
   const [timeLeft, setTimeLeft] = useState(timeLimit);
@@ -40,7 +41,7 @@ export const useWritingMode = (
             setIsTimeUp(true);
             setIsCorrect(false);
             setShowFeedback(true);
-            onAnswer(false);
+            onAnswer(false, answer === correctWord);
 
             feedbackTimerRef.current = setTimeout(() => {
               setShowFeedback(false);
@@ -63,7 +64,7 @@ export const useWritingMode = (
         clearInterval(timerRef.current);
       }
     };
-  }, [isActive, isTimeUp, showFeedback, timeLimit, onAnswer, clearTimers]);
+  }, [isActive, isTimeUp, showFeedback, timeLimit, answer, correctWord, onAnswer, clearTimers]);
 
   const handleInputFocus = useCallback(() => {
     if (!isActive && !isTimeUp && !showFeedback) {
@@ -79,10 +80,10 @@ export const useWritingMode = (
     if (showFeedback || isTimeUp) return;
 
     clearTimers();
-    const correct = isCorrectAnswer(userInput, correctWord);
+    const correct = isCorrectAnswer(userInput, answer);
     setIsCorrect(correct);
     setShowFeedback(true);
-    onAnswer(correct);
+    onAnswer(correct, answer === correctWord);
 
     feedbackTimerRef.current = setTimeout(() => {
       setShowFeedback(false);
@@ -92,7 +93,7 @@ export const useWritingMode = (
       setIsTimeUp(false);
       setIsCorrect(null);
     }, 1500);
-  }, [userInput, correctWord, showFeedback, isTimeUp, timeLimit, onAnswer, clearTimers]);
+  }, [userInput, answer, correctWord, showFeedback, isTimeUp, timeLimit, onAnswer, clearTimers]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
