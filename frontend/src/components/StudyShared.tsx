@@ -1,4 +1,9 @@
 import styled, { keyframes, css } from 'styled-components';
+import { 
+  BookOpen, Home, CheckCircle2, Play, Shuffle, Mic, PenTool, 
+  Volume2, X, Check
+} from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
 export const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(20px); }
@@ -62,19 +67,20 @@ export const BackButton = styled.button`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 1.25rem;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.8);
+  background: rgba(168, 85, 247, 0.15);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  color: #c084fc;
   font-size: 0.9rem;
   font-weight: 500;
   transition: all 0.2s ease;
   cursor: pointer;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(168, 85, 247, 0.25);
     color: white;
+    transform: translateX(-2px);
   }
 `;
 
@@ -430,3 +436,175 @@ export const ProgressInfo = styled.div`
   color: rgba(255, 255, 255, 0.6);
   font-size: 0.9rem;
 `;
+
+// ============================================
+// COMPONENTES GENÉRICOS REUTILIZABLES
+// ============================================
+
+interface GenericTopBarProps {
+  view: 'selection' | 'study';
+  icon: LucideIcon;
+  title: string;
+  onBack: () => void;
+  onGoToDashboard: () => void;
+}
+
+export const GenericTopBar = ({ view, icon: Icon, title, onBack, onGoToDashboard }: GenericTopBarProps) => (
+  <TopBar>
+    {view === 'study' ? (
+      <BackButton onClick={onBack}>
+        <BookOpen size={18} />
+        Pages
+      </BackButton>
+    ) : (
+      <DashboardButton onClick={onGoToDashboard}>
+        <Home size={18} />
+        Dashboard
+      </DashboardButton>
+    )}
+    <HeaderTitle>
+      <Icon size={20} />
+      {title}
+    </HeaderTitle>
+    <Spacer />
+  </TopBar>
+);
+
+interface GenericSelectionProps {
+  pages: { id: string | number; title?: string; subtitle?: string; num?: number; pageNumber?: number; desc?: string }[];
+  selectedPages: (string | number)[];
+  studyMode: string;
+  onPageSelect: (pageId: string | number) => void;
+  onStudyModeChange: (mode: string) => void;
+  onStartStudy: () => void;
+}
+
+export function GenericSelection({
+  pages,
+  selectedPages,
+  studyMode,
+  onPageSelect,
+  onStudyModeChange,
+  onStartStudy
+}: GenericSelectionProps) {
+  return (
+    <>
+      <SelectionTitle>Select your pages</SelectionTitle>
+      <SelectionSubtitle>Choose the pages to generate a practice session</SelectionSubtitle>
+      
+      <CardsGrid>
+        {pages.map((page) => (
+          <PageCard 
+            key={String(page.id)} 
+            $selected={selectedPages.includes(page.id)}
+            onClick={() => onPageSelect(page.id)}
+          >
+            <CheckIconWrapper $selected={selectedPages.includes(page.id)}>
+              {selectedPages.includes(page.id) && <CheckCircle2 size={14} />}
+            </CheckIconWrapper>
+            <PageTitle>{page.title || `Page ${page.num || page.pageNumber}`}</PageTitle>
+            <PageSubtitle>{page.subtitle || page.desc || ''}</PageSubtitle>
+          </PageCard>
+        ))}
+      </CardsGrid>
+
+      {selectedPages.length > 0 && (
+        <FloatingActionBar $isVisible>
+          <ModeSelector>
+            <ModeButton 
+              $active={studyMode === 'mixed'} 
+              onClick={() => onStudyModeChange('mixed')}
+            >
+              <Shuffle size={16} />
+              Mixed
+            </ModeButton>
+            <ModeButton 
+              $active={studyMode === 'speaking'} 
+              onClick={() => onStudyModeChange('speaking')}
+            >
+              <Mic size={16} />
+              Speaking
+            </ModeButton>
+            <ModeButton 
+              $active={studyMode === 'writing'} 
+              onClick={() => onStudyModeChange('writing')}
+            >
+              <PenTool size={16} />
+              Writing
+            </ModeButton>
+          </ModeSelector>
+          
+          <SelectionInfo>
+            <SelectionCountLabel>Pages Selected</SelectionCountLabel>
+            <SelectionNumber>{selectedPages.length}</SelectionNumber>
+          </SelectionInfo>
+          
+          <StartButton onClick={onStartStudy}>
+            <Play size={18} />
+            Start Study
+          </StartButton>
+        </FloatingActionBar>
+      )}
+    </>
+  );
+}
+
+interface GenericStudyCardProps {
+  icon: LucideIcon;
+  phaseLabel: string;
+  mainWord: string | undefined;
+  revealed: boolean;
+  currentIndex: number;
+  totalItems: number;
+  onFlip: () => void;
+  onNext: () => void;
+  children?: React.ReactNode;
+}
+
+export const GenericStudyCard = ({
+  icon: Icon,
+  phaseLabel,
+  mainWord,
+  revealed,
+  currentIndex,
+  totalItems,
+  onFlip,
+  onNext,
+  children
+}: GenericStudyCardProps) => (
+  <>
+    <PhaseBadge>
+      <Icon size={14} />
+      {phaseLabel}
+    </PhaseBadge>
+
+    <CardContainer $revealed={revealed} onClick={!revealed ? onFlip : undefined}>
+      <SpeakerButton onClick={(e: React.MouseEvent) => e.stopPropagation()}>
+        <Volume2 size={22} />
+      </SpeakerButton>
+      
+      <MainWord>{mainWord || 'Loading...'}</MainWord>
+      
+      {!revealed && (
+        <TapHint>Tap to reveal</TapHint>
+      )}
+      
+      {revealed && children}
+    </CardContainer>
+
+    {revealed && (
+      <ControlsContainer>
+        <ControlButton $variant="reject" onClick={onNext}>
+          <X size={28} />
+        </ControlButton>
+        <ControlButton $variant="approve" onClick={onNext}>
+          <Check size={28} />
+        </ControlButton>
+      </ControlsContainer>
+    )}
+
+    <ProgressInfo>
+      {currentIndex + 1} / {totalItems} items
+    </ProgressInfo>
+  </>
+);
