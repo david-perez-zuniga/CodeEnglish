@@ -58,6 +58,7 @@ export const VocabularyStudy = () => {
     currentWordIndex,
     totalWords,
     currentWord,
+    currentWordMode,
     handleBack,
     togglePage,
     startStudySession,
@@ -68,12 +69,17 @@ export const VocabularyStudy = () => {
     setStudyMode,
   } = useVocabularyStudy();
 
+  const writingAnswer = currentWordMode === 'english' 
+    ? currentWord.word 
+    : currentWord.translation;
+
   const renderStudyContent = () => {
     if (studyMode === 'writing') {
       return (
         <WritingMode
           word={currentWord.word}
           meaning={currentWord.translation}
+          answer={writingAnswer}
           timeLimit={5}
           onAnswer={handleWritingAnswer}
           currentIndex={currentWordIndex}
