@@ -44,6 +44,7 @@ import {
   PhaseBadge,
   ProgressInfo
 } from '../../components/StudyShared';
+import { WritingMode } from '../../components/WritingMode';
 import { useIdiomsStudy } from './hooks';
 import { STUDY_MODES } from './constants';
 import { MeaningText, ExampleContainer, ExampleLabel, ExampleText } from './styles';
@@ -52,8 +53,9 @@ export const IdiomsStudy = () => {
   const navigate = useNavigate();
   const {
     view, selectedPages, studyMode, revealed, currentIdiomIndex,
-    totalIdioms, currentIdiom, handleBack, togglePageSelection,
-    handleStartStudy, handleReveal, handleNextIdiom, setStudyMode, pagesData
+    totalIdioms, currentIdiom, writingAnswer,
+    handleBack, togglePageSelection, handleStartStudy, handleReveal,
+    handleNextIdiom, handleWritingAnswer, setStudyMode, pagesData
   } = useIdiomsStudy();
 
   return (
@@ -98,11 +100,21 @@ export const IdiomsStudy = () => {
                     {selectedPages.includes(page.id) && <CheckCircle2 size={14} />}
                   </CheckIconWrapper>
                   <PageTitle>Page {page.pageNumber}</PageTitle>
-                  <PageSubtitle>{page.subtitle}</PageSubtitle>
+                  <PageSubtitle $isAdvanced>{page.subtitle}</PageSubtitle>
                 </PageCard>
               ))}
             </CardsGrid>
           </>
+        ) : studyMode === 'writing' && currentIdiom ? (
+          <WritingMode
+            word={currentIdiom.phrase}
+            meaning={currentIdiom.meaning}
+            answer={writingAnswer}
+            timeLimit={5}
+            onAnswer={handleWritingAnswer}
+            currentIndex={currentIdiomIndex}
+            totalWords={totalIdioms}
+          />
         ) : (
           <>
             <PhaseBadge>
