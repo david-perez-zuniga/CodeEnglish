@@ -182,10 +182,12 @@ export const PageTitle = styled.span`
   color: white;
 `;
 
-export const PageSubtitle = styled.span<{ $isIrregular?: boolean }>`
+export const PageSubtitle = styled.span<{ $isIrregular?: boolean; $isAdvanced?: boolean }>`
   font-size: 0.85rem;
-  color: ${({ $isIrregular }) => $isIrregular ? '#f472b6' : 'rgba(255, 255, 255, 0.6)'};
-  font-weight: ${({ $isIrregular }) => $isIrregular ? '600' : '400'};
+  color: ${({ $isIrregular, $isAdvanced }) => 
+    $isAdvanced ? '#ef4444' : $isIrregular ? '#f472b6' : 'rgba(255, 255, 255, 0.6)'};
+  font-weight: ${({ $isIrregular, $isAdvanced }) => 
+    ($isIrregular || $isAdvanced) ? '600' : '400'};
 `;
 
 export const CheckIconWrapper = styled.div<{ $selected: boolean }>`
