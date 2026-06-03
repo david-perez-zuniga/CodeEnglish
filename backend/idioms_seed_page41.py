@@ -92,7 +92,7 @@ async def seed_page_41():
                 page = Page(
                     page_number=41,
                     module_type="idioms",
-                    subtitle="Página 41 - Idioms"
+                    subtitle="Idioms"
                 )
                 session.add(page)
                 await session.flush()
