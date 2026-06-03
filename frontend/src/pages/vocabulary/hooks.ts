@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { ViewState, StudyMode, Word } from './types';
 import { mockWords } from './constants';
-
-const API_BASE = 'http://localhost:8000/api/rt_vocabularies';
+import { API } from '../../utils/api';
 
 export const useVocabularyStudy = () => {
   const navigate = useNavigate();
@@ -21,7 +20,7 @@ export const useVocabularyStudy = () => {
     try {
       const allWords: Word[] = [];
       for (const pageNum of pages) {
-        const response = await fetch(`${API_BASE}/vocabulary/${pageNum}`);
+        const response = await fetch(API.vocabulary.byPage(pageNum));
         if (response.ok) {
           const data = await response.json();
           const mapped = data.map((item: any) => ({
