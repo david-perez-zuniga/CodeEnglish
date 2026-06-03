@@ -2,10 +2,9 @@ export type StudyMode = 'flashcards' | 'speaking' | 'writing';
 export type ViewState = 'selection' | 'study';
 
 export interface IdiomPage {
-  id: string;
+  id: number;
   pageNumber: number;
   subtitle: string;
-  idioms: IdiomData[];
 }
 
 export interface IdiomData {
