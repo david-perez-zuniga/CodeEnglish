@@ -13,7 +13,7 @@ class Idiom(Base):
     __tablename__ = "idioms"
     id: Mapped[int] = mapped_column(primary_key=True)
     pages_id: Mapped[int] = mapped_column(ForeignKey("pages.id"))
-    phrase: Mapped[str] = mapped_column(String(30), index=True, nullable=False)
+    phrase: Mapped[str] = mapped_column(String(100), index=True, nullable=False)
     meaning: Mapped[str] = mapped_column(String(255), nullable=False)
     example: Mapped[str] = mapped_column(String(255), nullable=False)
     page: Mapped["Page"] = relationship(back_populates="idioms")
