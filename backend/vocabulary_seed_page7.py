@@ -8,9 +8,10 @@ from app.models.base import Base
 
 
 vocabulary_data = [
+    # --- SECCIÓN SUPERIOR ---
     {"en": "Bucks", "es": "Dólares"},
     {"en": "(to) Dine", "es": "Cenar"},
-    {"en": "(to) Grow up", "es": "Creer"},
+    {"en": "(to) Grow up", "es": "Crecer"},
     {"en": "(to) Mail", "es": "Enviar por correo"},
     {"en": "Manage", "es": "Administrar"},
     {"en": "Chinatown", "es": "Barrio chino"},
@@ -35,10 +36,11 @@ vocabulary_data = [
     {"en": "Maintenance", "es": "Mantenimiento"},
     {"en": "Equipment", "es": "Equipo"},
     {"en": "Appliances", "es": "Electrodomésticos"},
+    {"en": "Items", "es": "Artículos"},
     {"en": "Budget", "es": "Presupuesto"},
     {"en": "Electrician", "es": "Electricista"},
     {"en": "Plumber", "es": "Plomero"},
-    {"en": "Ways", "es": "Maneras, formas"},
+    {"en": "Ways", "es": "Maneras, Formas"},
     {"en": "Training", "es": "Entrenamiento"},
     {"en": "Skills", "es": "Habilidades"},
     {"en": "On the job training", "es": "Pago y entrenamiento"},
@@ -54,6 +56,8 @@ vocabulary_data = [
     {"en": "(to) Fill", "es": "Llenar, completar"},
     {"en": "(to) Supervise", "es": "Supervisar"},
     {"en": "(to) Carry out", "es": "Llevar a cabo"},
+
+    # --- SECCIÓN MEDIA ---
     {"en": "(to) Establish", "es": "Establecer"},
     {"en": "(to) Start out", "es": "Comenzar"},
     {"en": "(to) Rise", "es": "Levantarse, surgir"},
@@ -100,7 +104,21 @@ vocabulary_data = [
     {"en": "(to) Set up", "es": "Montar"},
     {"en": "(to) Display", "es": "Mostrar, exhibir"},
     {"en": "(to) Surround", "es": "Rodear"},
-    {"en": "(to) Appear", "es": "Aparecer"}
+    {"en": "(to) Appear", "es": "Aparecer"},
+
+    # --- SECCIÓN INFERIOR ---
+    {"en": "Bill", "es": "Cuenta"},
+    {"en": "Handful", "es": "Puñado"},
+    {"en": "Everywhere", "es": "Por todas partes"},
+    {"en": "Credit", "es": "Crédito"},
+    {"en": "Loan", "es": "Préstamo"},
+    {"en": "Cash", "es": "Efectivo"},
+    {"en": "(to) Accept", "es": "Aceptar"},
+    {"en": "Reliable", "es": "Confiable"},
+    {"en": "Honest", "es": "Honesto"},
+    {"en": "Worth", "es": "Valor, valer"},
+    {"en": "Value", "es": "Valor"},
+    {"en": "Coin", "es": "Moneda"}
 ]
 
 
