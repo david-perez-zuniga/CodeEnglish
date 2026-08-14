@@ -14,6 +14,6 @@ class Vocabulary(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     pages_id: Mapped[int] = mapped_column(ForeignKey("pages.id"))
-    word: Mapped[str] = mapped_column(String(30))
-    meaning: Mapped[str] = mapped_column(String(35))
+    word: Mapped[str] = mapped_column(String(100))
+    meaning: Mapped[str] = mapped_column(String(255))
     page: Mapped["Page"] = relationship(back_populates="vocabularies")
